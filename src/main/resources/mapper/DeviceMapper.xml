@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.my.build.dao.DeviceMapper">
+
+<select id="getList" resultType="com.my.build.entity.Device">
+    select a.*,b.name buildingName from access_control_device as a
+    inner join buiding as b
+    on a.bid = b.id
+    <where>
+        <if test="bid !=-1" >
+            and bid = #{bid}
+        </if>
+    </where>
+    limit #{startIndex},#{pageSize};
+</select>
+    <select id="getCount" resultType="int" parameterType="int" >
+        select count(0) from access_control_device
+        <where>
+            <if test="bid !=-1" >
+                and bid = #{bid}
+            </if>
+        </where>
+    </select>
+    <select id="getBuildingList" resultType="com.my.build.entity.Buildind">
+        select * from buiding
+    </select>
+    <update id="operateStatus" >
+        UPDATE access_control_device set `status` = #{status} WHERE id = #{id}
+    </update>
+    <insert id="add" parameterType="com.my.build.entity.Buildind">
+
+INSERT INTO access_control_device
+	(
+	principal,
+	supplier,
+	brand,
+	bid,
+	`status`,
+	ADDTIME
+	)
+	VALUES
+	(
+	#{device.principal},
+    #{device.supplier},
+	#{device.brand},
+	#{device.bid},
+	1,
+	#{device.addTime});
+
+    </insert>
+    <select id="getDeviceById" parameterType="int" resultType="com.my.build.entity.Device">
+    select a.*,b.name buildingName from access_control_device as a
+    inner join buiding as b
+    on a.bid = b.id
+    where a.id = #{id}
+    </select>
+    <delete id="del" parameterType="int">
+        delete from access_control_device where id = #{id}
+    </delete>
+</mapper>
