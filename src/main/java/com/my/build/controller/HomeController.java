@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import java.util.List  ;
 
 @RestController
 public class HomeController {
     @Autowired
     DeviceService deviceService;
+    private int a =1;
     //首页请求
     @GetMapping("/index")
     public Page<Device> gotoIndex(@RequestParam(value = "bid",required = false,defaultValue = "-1") int bid,
